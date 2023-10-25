@@ -11,12 +11,12 @@ from mintsXU4 import mintsDefinitions as mD
 from mintsXU4 import mintsSensorReader as mSR
 import ssl
 
-macAddress              = mD.macAddress
-mqttPort                = mD.mqttPort
+# macAddress              = mD.macAddress
+mqttPort                = mD.mqttPortDC
 mqttBroker              = mD.mqttBrokerDC
-dataFolderMQTT          = mD.dataFolderMQTT
+# dataFolderMQTT          = mD.dataFolderMQTT
 
-dataFolderMQTTReference = mD.dataFolderMQTTReference
+# dataFolderMQTTReference = mD.dataFolderMQTTReference
 tlsCert                 = mD.tlsCert
 
 credentials             = mD.credentials
@@ -74,16 +74,16 @@ def connect(mqtt_client, mqtt_username, mqtt_password, broker_endpoint, port):
     return True
 
 
-def writeMQTTLatest(sensorDictionary,sensorName):
+# def writeMQTTLatest(sensorDictionary,sensorName):
 
-    if connect(mqtt_client, mqttUN, mqttPW, broker, port):
-        try:
-            mqtt_client.publish(macAddress+"/"+sensorName,json.dumps(sensorDictionary))
+#     if connect(mqtt_client, mqttUN, mqttPW, broker, port):
+#         try:
+#             mqtt_client.publish(macAddress+"/"+sensorName,json.dumps(sensorDictionary))
 
-        except Exception as e:
-            print("[ERROR] Could not publish data, error: {}".format(e))
+#         except Exception as e:
+#             print("[ERROR] Could not publish data, error: {}".format(e))
     
-    return True
+#     return True
     
 def writeMQTTLatestMock(sensorDictionary,sensorName):
 
@@ -96,79 +96,79 @@ def writeMQTTLatestMock(sensorDictionary,sensorName):
     
     return True
 
-def writeJSONLatest(sensorDictionary,sensorName):
-    directoryIn  = dataFolder+"/"+macAddress+"/"+sensorName+".json"
-    print(directoryIn)
-    try:
-        with open(directoryIn,'w') as fp:
-            mSR.directoryCheck(directoryIn)
-            json.dump(sensorDictionary, fp)
+# def writeJSONLatest(sensorDictionary,sensorName):
+#     directoryIn  = dataFolder+"/"+macAddress+"/"+sensorName+".json"
+#     print(directoryIn)
+#     try:
+#         with open(directoryIn,'w') as fp:
+#             mSR.directoryCheck(directoryIn)
+#             json.dump(sensorDictionary, fp)
 
-    except Exception as e:
-        print("[ERROR] Could not publish data, error: {}".format(e))
-        print("Json Data Not Written")
+#     except Exception as e:
+#         print("[ERROR] Could not publish data, error: {}".format(e))
+#         print("Json Data Not Written")
 
-def writeJSONLatestMQTT(sensorDictionary,nodeID,sensorID):
-    directoryIn  = dataFolderMQTT+"/"+nodeID+"/"+sensorID+".json"
-    # print(directoryIn)
-    try:
-        with open(directoryIn,'w') as fp:
-            mSR.directoryCheck(directoryIn)
-            json.dump(sensorDictionary, fp)
-    except Exception as e:
-        print("[ERROR] Could not publish data, error: {}".format(e))
-        print("Json Data Not Written")
+# def writeJSONLatestMQTT(sensorDictionary,nodeID,sensorID):
+#     directoryIn  = dataFolderMQTT+"/"+nodeID+"/"+sensorID+".json"
+#     # print(directoryIn)
+#     try:
+#         with open(directoryIn,'w') as fp:
+#             mSR.directoryCheck(directoryIn)
+#             json.dump(sensorDictionary, fp)
+#     except Exception as e:
+#         print("[ERROR] Could not publish data, error: {}".format(e))
+#         print("Json Data Not Written")
 
-def writeJSONLatestMQTTReference(sensorDictionary,nodeID,sensorID):
-    directoryIn  = dataFolderMQTTReference+"/"+nodeID+"/"+sensorID+".json"
-    print(directoryIn)
-    try:
-        with open(directoryIn,'w') as fp:
-            mSR.directoryCheck(directoryIn)
-            json.dump(sensorDictionary, fp)
-    except Exception as e:
-        print("[ERROR] Could not publish data, error: {}".format(e))
-        print("Json Data Not Written")
-
-
-def writeJSONLatestReference(sensorDictionary,sensorName):
-    directoryIn  = dataFolderReference+"/"+macAddress+"/"+sensorName+".json"
-    print(directoryIn)
-    try:
-        with open(directoryIn,'w') as fp:
-            mSR.directoryCheck(directoryIn)
-            json.dump(sensorDictionary, fp)
-
-    except:
-        print("[ERROR] Could not publish data, error: {}".format(e))
-        print("Json Data Not Written")
+# def writeJSONLatestMQTTReference(sensorDictionary,nodeID,sensorID):
+#     directoryIn  = dataFolderMQTTReference+"/"+nodeID+"/"+sensorID+".json"
+#     print(directoryIn)
+#     try:
+#         with open(directoryIn,'w') as fp:
+#             mSR.directoryCheck(directoryIn)
+#             json.dump(sensorDictionary, fp)
+#     except Exception as e:
+#         print("[ERROR] Could not publish data, error: {}".format(e))
+#         print("Json Data Not Written")
 
 
-def readJSONLatestAll(sensorName):
-    try:
-        directoryIn  = dataFolder+"/"+macAddress+"/"+sensorName+".json"
-        with open(directoryIn, 'r') as myfile:
-            # dataRead=myfile.read()
-            dataRead=json.load(myfile)
+# def writeJSONLatestReference(sensorDictionary,sensorName):
+#     directoryIn  = dataFolderReference+"/"+macAddress+"/"+sensorName+".json"
+#     print(directoryIn)
+#     try:
+#         with open(directoryIn,'w') as fp:
+#             mSR.directoryCheck(directoryIn)
+#             json.dump(sensorDictionary, fp)
 
-        time.sleep(0.01)
-        return dataRead, True;
-    except:
-        print("Data Conflict!")
-        return "NaN", False
+#     except:
+#         print("[ERROR] Could not publish data, error: {}".format(e))
+#         print("Json Data Not Written")
+
+
+# def readJSONLatestAll(sensorName):
+#     try:
+#         directoryIn  = dataFolder+"/"+macAddress+"/"+sensorName+".json"
+#         with open(directoryIn, 'r') as myfile:
+#             # dataRead=myfile.read()
+#             dataRead=json.load(myfile)
+
+#         time.sleep(0.01)
+#         return dataRead, True;
+#     except:
+#         print("Data Conflict!")
+#         return "NaN", False
         
 
-def readJSONLatestAllMQTT(nodeID,sensorID):
-    directoryIn  = dataFolderMQTTReference+"/"+nodeID+"/"+sensorID+".json"
-    try:
-        with open(directoryIn, 'r') as myfile:
-            # dataRead=myfile.read()
-            dataRead=json.load(myfile)
+# def readJSONLatestAllMQTT(nodeID,sensorID):
+#     directoryIn  = dataFolderMQTTReference+"/"+nodeID+"/"+sensorID+".json"
+#     try:
+#         with open(directoryIn, 'r') as myfile:
+#             # dataRead=myfile.read()
+#             dataRead=json.load(myfile)
 
-        time.sleep(0.01)
-        return dataRead, True;
-    except:
-        print("Data Conflict!")
-        return "NaN", False
+#         time.sleep(0.01)
+#         return dataRead, True;
+#     except:
+#         print("Data Conflict!")
+#         return "NaN", False
 
 

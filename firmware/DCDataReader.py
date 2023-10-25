@@ -17,7 +17,7 @@ from mintsXU4 import mintsLatest as mL
 import sys
 import pandas as pd
 
-mqttPort              = mD.mqttPort
+mqttPort              = mD.mqttPortDC
 mqttBroker            = mD.mqttBrokerDC
 mqttCredentialsFile   = mD.credentials
 tlsCert               = mD.tlsCert
@@ -31,7 +31,6 @@ port                  = mqttPort  # Secure port
 mqttUN                = credentials['mqtt']['username'] 
 mqttPW                = credentials['mqtt']['password'] 
 
-print(nodeInfo)
 nodeIDs               = nodeInfo['mac_address']
 print(nodeIDs)
 
@@ -39,6 +38,9 @@ sensorIDs             = sensorInfo['sensorIDs']
 print(sensorIDs)
 
 decoder = json.JSONDecoder(object_pairs_hook=collections.OrderedDict)
+
+
+
 
 # The callback for when the client receives a CONNACK response from the server.
 def on_connect(client, userdata, flags, rc):
@@ -57,28 +59,29 @@ def on_message(client, userdata, msg):
     print()
     print(" - - - MINTS DATA RECEIVED - - - ")
     print()
-    # print(msg.topic+":"+str(msg.payload))
     try:
         [nodeID,sensorID ] = msg.topic.split('/')
         sensorDictionary = decoder.decode(msg.payload.decode("utf-8","ignore"))
         print("Node ID   :" + nodeID)
         print("Sensor ID :" + sensorID)
         print("Data      : " + str(sensorDictionary))
-        
-        if sensorID== "FRG001":
-            dateTime  = datetime.datetime.strptime(sensorDictionary["dateTime"], '%Y-%m-%d %H:%M:%S')
-        else:
-            dateTime  = datetime.datetime.strptime(sensorDictionary["dateTime"], '%Y-%m-%d %H:%M:%S.%f')
-        writePath = mSR.getWritePathMQTT(nodeID,sensorID,dateTime)
-        exists    = mSR.directoryCheck(writePath)
-        sensorDictionary = decoder.decode(msg.payload.decode("utf-8","ignore"))
-        print("Writing MQTT Data")
-        print(writePath)
-        mSR.writeCSV2(writePath,sensorDictionary,exists)
-        mL.writeJSONLatestMQTT(sensorDictionary,nodeID,sensorID)
+        clientAWS.publish("mintsThings/"+nodeID+"/"+sensorID,payload=json.dumps(sensorDictionary), qos=0, retain=False)
+        # At this point --> Publish into 
 
     except Exception as e:
         print("[ERROR] Could not publish data, error: {}".format(e))
+
+
+# AWS MQTT Client details 
+def on_connect_aws(client, userdata, flags, rc):
+    print("Connected with AWS - result code "+str(rc))
+    
+clientAWS = mqtt.Client()
+clientAWS.on_connect = on_connect_aws
+clientAWS.tls_set(ca_certs='mintsXU4/credentials/AmazonRootCA1.pem', certfile='mintsXU4/credentials/aws-certificate.pem.crt', keyfile='mintsXU4/credentials/aws-private.pem.key', tls_version=ssl.PROTOCOL_SSLv23)
+clientAWS.tls_insecure_set(True)
+clientAWS.connect("a1sy4v3syxrxsq-ats.iot.us-east-1.amazonaws.com", 8883, 60) #Taken from REST API endpoint - Use your own. 
+
 
 # Create an MQTT client and attach our routines to it.
 client = mqtt.Client()
@@ -94,3 +97,5 @@ client.tls_set(ca_certs=tlsCert, certfile=None,
 client.tls_insecure_set(True)
 client.connect(broker, port, 60)
 client.loop_forever()
+
+
