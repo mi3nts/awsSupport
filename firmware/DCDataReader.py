@@ -34,7 +34,7 @@ mqttPW                = credentials['mqtt']['password']
 nodeIDs               = nodeInfo['mac_address']
 print(nodeIDs)
 
-sensorIDs             = sensorInfo['sensorIDs']
+sensorIDs             = sensorInfo['sensorID']
 print(sensorIDs)
 
 decoder = json.JSONDecoder(object_pairs_hook=collections.OrderedDict)

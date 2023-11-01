@@ -18,11 +18,11 @@ tlsCert                   = mintsDefinitions['tlsCert']     # The path of your T
 credentialsFile           = 'mintsXU4/credentials/credentials.yaml'
 credentials               = yaml.load(open(credentialsFile))
 
-sensorInfoFile            = 'mintsXU4/credentials/sensorIDs.yml'
-sensorInfo                = yaml.load(open(sensorInfoFile),Loader=yaml.FullLoader)
+# sensorInfoFile            = 'mintsXU4/credentials/sensorIDs.yml'
+sensorInfo                  = pd.read_csv('https://raw.githubusercontent.com/mi3nts/AirQualityAnalysisWorkflows/main/influxdb/nodered-docker/sensorIDs.csv')
 print("Sensor Info: " + str(sensorInfo))
 
-portInfo                  = pd.read_csv('https://raw.githubusercontent.com/mi3nts/loRaWANSupport/main/firmware/xu4LoRa/mintsXU4/credentials/portIDs.csv')
+portInfo                  = pd.read_csv('https://raw.githubusercontent.com/mi3nts/AirQualityAnalysisWorkflows/main/influxdb/nodered-docker/portIDs.csv')
 print("Port Info: " + str(portInfo))
 
 nodeInfo                  = pd.read_csv('https://raw.githubusercontent.com/mi3nts/AirQualityAnalysisWorkflows/main/influxdb/nodered-docker/id_lookup.csv')
