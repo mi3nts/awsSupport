@@ -35,3 +35,5 @@ https://github.com/binaryupdates/aws-raspberrypi/blob/main/pipython.py
 
 ---------
 Partition Keys 
+https://www.youtube.com/watch?v=XvD2FrS5yYM
+https://www.youtube.com/watch?v=ummOosOW4lE --> ON RCUs 
