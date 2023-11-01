@@ -31,3 +31,7 @@ At this point attach the certificates to both the relevant policy and thing.
 
 https://www.youtube.com/watch?v=adKuyckikuw&t=593s
 https://github.com/binaryupdates/aws-raspberrypi/blob/main/pipython.py
+
+
+---------
+Partition Keys 
