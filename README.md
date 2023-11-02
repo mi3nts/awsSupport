@@ -37,3 +37,14 @@ https://github.com/binaryupdates/aws-raspberrypi/blob/main/pipython.py
 Partition Keys 
 https://www.youtube.com/watch?v=XvD2FrS5yYM
 https://www.youtube.com/watch?v=ummOosOW4lE --> ON RCUs 
+
+
+-----------
+Feed into Dynamo DB 
+
+Just have one table for all the data 
+
+- Go to IOT Core
+- Select message routing
+- Select Rules
+- Create a rule
